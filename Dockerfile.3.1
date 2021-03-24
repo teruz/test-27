@@ -1,0 +1,12 @@
+FROM registry.access.redhat.com/ubi8/php-73
+
+ADD app-src .
+
+RUN TEMPFILE=$(mktemp) && \
+    curl -o "$TEMPFILE" "https://getcomposer.org/installer" && \
+    php <"$TEMPFILE" && \
+    ./composer.phar install --no-interaction --no-ansi --optimize-autoloader
+
+CMD /usr/libexec/s2i/run
+
+
